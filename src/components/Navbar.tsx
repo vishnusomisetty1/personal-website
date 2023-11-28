@@ -12,6 +12,9 @@ export function Navbar() {
       <Link href="/youtube" className="hover:underline active:text-neutral-500">
         Youtube
       </Link>
+      <Link href="/habits" className="hover:underline active:text-neutral-500">
+        Habit Tracker
+      </Link>
     </div>
   );
 }
