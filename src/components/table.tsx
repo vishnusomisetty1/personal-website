@@ -2,16 +2,25 @@
 
 import { useState } from "react";
 
-export function Table() {
+export default function Table() {
   const [loggedIn, setLoggedIn] = useState(false);
-
+  const [temp, setTemp] = useState("");
   const [lists, setLists] = useState(["a", "sdf", "cvcv", "werfaf"]);
+
+  const password = "1234";
+
+  function handleClick() {
+    if (password === temp) {
+      console.log("good");
+      setLoggedIn(!loggedIn);
+    } else {
+      console.log("bad ");
+    }
+  }
+
   return (
     <div className="flex flex-col items-center">
-      <p>logged in: {loggedIn.toString()}</p>
-      <button onClick={() => setLoggedIn(!loggedIn)}>login</button>
-
-      {loggedIn ? (
+      {loggedIn === true ? (
         <table className="border">
           <thead className="border-b">
             <tr>
@@ -38,7 +47,19 @@ export function Table() {
           </tbody>
         </table>
       ) : (
-        <input className="px-2 py-1 text-black" />
+        <div className="flex space-x-4">
+          <input
+            className="px-2 py-1 text-black"
+            value={temp}
+            onChange={(e) => setTemp(e.target.value)}
+          />
+          <button
+            className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
+            onClick={() => handleClick()}
+          >
+            login
+          </button>
+        </div>
       )}
     </div>
   );
