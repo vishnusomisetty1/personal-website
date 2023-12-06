@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Habit {
+  id             Int      @id @default(autoincrement())
+  date           DateTime @default(now())
+  workout        Boolean  @default(false)
+  typingPractice Boolean  @default(false)
+  coding         Boolean  @default(false)
+  reading        Boolean  @default(false)
+}

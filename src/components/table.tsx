@@ -1,46 +1,60 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Table() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const [temp, setTemp] = useState("");
-  const [lists, setLists] = useState(["a", "sdf", "cvcv", "werfaf"]);
+  const [habits, setHabits] = useState([]);
+
+  useEffect(() => {
+    const fetchHabits = async () => {
+      const response = await fetch("/habits/api");
+      const d = await response.json();
+      setHabits(d.habits);
+    };
+
+    fetchHabits();
+  }, []);
 
   const password = "1234";
 
   function handleClick() {
     if (password === temp) {
-      console.log("good");
       setLoggedIn(!loggedIn);
     } else {
-      console.log("bad ");
     }
   }
 
+  const CELL_STYLE = "border-r";
   return (
     <div className="flex flex-col items-center">
       {loggedIn === true ? (
         <table className="border">
           <thead className="border-b">
             <tr>
-              <th className="border-r">Name</th>
-              <th>delete</th>
+              <th className={CELL_STYLE}>Date</th>
+              <th className={CELL_STYLE}>Workout</th>
+              <th className={CELL_STYLE}>Typing</th>
+              <th className={CELL_STYLE}>Coding</th>
+              <th className={CELL_STYLE}>Reading</th>
             </tr>
           </thead>
           <tbody>
-            {lists.map((str, index) => (
-              <tr className="border-b" key={index}>
-                <td>{str}</td>
-                <td
-                  className="border-l hover:cursor-pointer hover:underline"
-                  onClick={() =>
-                    setLists(
-                      lists.slice(0, index).concat(lists.slice(index + 1)),
-                    )
-                  }
-                >
-                  x
+            {habits.map((habit: any, index) => (
+              <tr className="border-b " key={index}>
+                <td className={CELL_STYLE}>{habit.date}</td>
+                <td className={CELL_STYLE}>
+                  <input type="checkbox" checked={habit.workout} />
+                </td>
+                <td className={CELL_STYLE}>
+                  <input type="checkbox" checked={habit.typingPractice} />
+                </td>
+                <td className={CELL_STYLE}>
+                  <input type="checkbox" checked={habit.coding} />
+                </td>
+                <td className={CELL_STYLE}>
+                  <input type="checkbox" checked={habit.reading} />
                 </td>
               </tr>
             ))}
