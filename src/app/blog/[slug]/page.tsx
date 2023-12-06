@@ -5,7 +5,6 @@ export default function Page({ params }: { params: { slug: string } }) {
   let allBlogs = getBlogPosts();
   const blogPost = allBlogs.find((blog) => blog.slug === params.slug);
 
-  // Check if a blog post was found, and return the content if so
   if (blogPost) {
     return (
       <div>
