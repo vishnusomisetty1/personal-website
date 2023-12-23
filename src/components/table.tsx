@@ -1,21 +1,44 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+interface Habit {
+  date: string;
+  workout: boolean;
+  typingPractice: boolean;
+  coding: boolean;
+  reading: boolean;
+}
 
 export default function Table() {
   const [loggedIn, setLoggedIn] = useState(true);
   const [temp, setTemp] = useState("");
-  const [habits, setHabits] = useState([]);
+  const [habits, setHabits] = useState<Habit[]>([]);
 
-  useEffect(() => {
-    const fetchHabits = async () => {
-      const response = await fetch("/habits/api");
-      const d = await response.json();
-      setHabits(d.habits);
+  function createNewHabit(): Habit {
+    const today = new Date().toISOString().slice(0, 10);
+    return {
+      date: today,
+      workout: false,
+      typingPractice: false,
+      coding: false,
+      reading: false,
     };
+  }
 
-    fetchHabits();
-  }, []);
+  function handleAddRow() {
+    setHabits([...habits, createNewHabit()]);
+  }
+
+  function handleCheckboxChange(habitIndex, habitKey) {
+    const updatedHabits = habits.map((habit, index) => {
+      if (index === habitIndex) {
+        return { ...habit, [habitKey]: !habit[habitKey] };
+      }
+      return habit;
+    });
+    setHabits(updatedHabits);
+  }
 
   const password = "1234";
 
@@ -23,43 +46,70 @@ export default function Table() {
     if (password === temp) {
       setLoggedIn(!loggedIn);
     } else {
+      // Handle incorrect password case
     }
   }
 
   const CELL_STYLE = "border-r";
   return (
     <div className="flex flex-col items-center">
-      {loggedIn === true ? (
-        <table className="border">
-          <thead className="border-b">
-            <tr>
-              <th className={CELL_STYLE}>Date</th>
-              <th className={CELL_STYLE}>Workout</th>
-              <th className={CELL_STYLE}>Typing</th>
-              <th className={CELL_STYLE}>Coding</th>
-              <th className={CELL_STYLE}>Reading</th>
-            </tr>
-          </thead>
-          <tbody>
-            {habits.map((habit: any, index) => (
-              <tr className="border-b " key={index}>
-                <td className={CELL_STYLE}>{habit.date}</td>
-                <td className={CELL_STYLE}>
-                  <input type="checkbox" checked={habit.workout} />
-                </td>
-                <td className={CELL_STYLE}>
-                  <input type="checkbox" checked={habit.typingPractice} />
-                </td>
-                <td className={CELL_STYLE}>
-                  <input type="checkbox" checked={habit.coding} />
-                </td>
-                <td className={CELL_STYLE}>
-                  <input type="checkbox" checked={habit.reading} />
-                </td>
+      {loggedIn ? (
+        <div>
+          <table className="border">
+            <thead className="border-b">
+              <tr>
+                <th className={CELL_STYLE}>Date</th>
+                <th className={CELL_STYLE}>Workout</th>
+                <th className={CELL_STYLE}>Typing</th>
+                <th className={CELL_STYLE}>Coding</th>
+                <th className={CELL_STYLE}>Reading</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {habits.map((habit, index) => (
+                <tr className="border-b" key={index}>
+                  <td className={CELL_STYLE}>{habit.date}</td>
+                  <td className={CELL_STYLE}>
+                    <input
+                      type="checkbox"
+                      checked={habit.workout}
+                      onChange={() => handleCheckboxChange(index, "workout")}
+                    />
+                  </td>
+                  <td className={CELL_STYLE}>
+                    <input
+                      type="checkbox"
+                      checked={habit.typingPractice}
+                      onChange={() =>
+                        handleCheckboxChange(index, "typingPractice")
+                      }
+                    />
+                  </td>
+                  <td className={CELL_STYLE}>
+                    <input
+                      type="checkbox"
+                      checked={habit.coding}
+                      onChange={() => handleCheckboxChange(index, "coding")}
+                    />
+                  </td>
+                  <td className={CELL_STYLE}>
+                    <input
+                      type="checkbox"
+                      checked={habit.reading}
+                      onChange={() => handleCheckboxChange(index, "reading")}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button
+            className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
+            onClick={handleAddRow}
+          >
+            Add New Day
+          </button>
+        </div>
       ) : (
         <div className="flex space-x-4">
           <input
@@ -69,7 +119,7 @@ export default function Table() {
           />
           <button
             className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
-            onClick={() => handleClick()}
+            onClick={handleClick}
           >
             login
           </button>
