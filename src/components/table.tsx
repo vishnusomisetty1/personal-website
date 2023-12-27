@@ -114,12 +114,18 @@ export default function Table() {
               ))}
             </tbody>
           </table>
-          <button
-            className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
-            onClick={handleAddRow}
-          >
-            Add New Day
-          </button>
+
+          <div className="mt-2 flex flex-col space-y-2">
+            <button
+              className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
+              onClick={handleAddRow}
+            >
+              Add New Day
+            </button>
+            <button className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700">
+              Save
+            </button>
+          </div>
         </div>
       ) : (
         <div className="flex space-x-4">
