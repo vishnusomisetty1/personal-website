@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Habit {
   date: string;
@@ -9,6 +9,8 @@ interface Habit {
   coding: boolean;
   reading: boolean;
 }
+
+type HabitKey = "workout" | "typingPractice" | "coding" | "reading";
 
 export default function Table() {
   const [loggedIn, setLoggedIn] = useState(true);
@@ -30,7 +32,26 @@ export default function Table() {
     setHabits([...habits, createNewHabit()]);
   }
 
-  function handleCheckboxChange(habitIndex, habitKey) {
+  useEffect(() => {
+    const fetchHabits = async () => {
+      const response = await fetch("/habits/api");
+      const d = await response.json();
+      setHabits(d.habits);
+    };
+
+    fetchHabits();
+  }, []);
+
+  const password = "1234";
+
+  function handleClick() {
+    if (password === temp) {
+      setLoggedIn(!loggedIn);
+    } else {
+    }
+  }
+
+  function handleCheckboxChange(habitIndex: number, habitKey: HabitKey) {
     const updatedHabits = habits.map((habit, index) => {
       if (index === habitIndex) {
         return { ...habit, [habitKey]: !habit[habitKey] };
@@ -40,20 +61,10 @@ export default function Table() {
     setHabits(updatedHabits);
   }
 
-  const password = "1234";
-
-  function handleClick() {
-    if (password === temp) {
-      setLoggedIn(!loggedIn);
-    } else {
-      // Handle incorrect password case
-    }
-  }
-
   const CELL_STYLE = "border-r";
   return (
     <div className="flex flex-col items-center">
-      {loggedIn ? (
+      {loggedIn === true ? (
         <div>
           <table className="border">
             <thead className="border-b">
@@ -121,7 +132,7 @@ export default function Table() {
             className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
             onClick={handleClick}
           >
-            login
+            Login
           </button>
         </div>
       )}
