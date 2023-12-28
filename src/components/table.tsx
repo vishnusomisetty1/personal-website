@@ -15,56 +15,80 @@ type HabitKey = "workout" | "typingPractice" | "coding" | "reading";
 export default function Table() {
   const [loggedIn, setLoggedIn] = useState(true);
   const [temp, setTemp] = useState("");
-  const [habits, setHabits] = useState<Habit[]>([]);
-
-  function createNewHabit(): Habit {
-    const today = new Date().toISOString().slice(0, 10);
-    return {
-      date: today,
-      workout: false,
-      typingPractice: false,
-      coding: false,
-      reading: false,
-    };
-  }
-
-  function handleAddRow() {
-    setHabits([...habits, createNewHabit()]);
-  }
+  const [originalHabits, setOriginalHabits] = useState<Habit[]>([]);
+  const [currentHabits, setCurrentHabits] = useState<Habit[]>([]);
+  const [isDirty, setIsDirty] = useState(false);
 
   useEffect(() => {
     const fetchHabits = async () => {
       const response = await fetch("/habits/api");
-      const d = await response.json();
-      setHabits(d.habits);
+      const data = await response.json();
+      setOriginalHabits(data.habits);
+      setCurrentHabits(data.habits);
     };
 
     fetchHabits();
   }, []);
 
-  const password = "1234";
+  const dataHasChanged =
+    JSON.stringify(originalHabits) !== JSON.stringify(currentHabits);
 
-  function handleClick() {
-    if (password === temp) {
-      setLoggedIn(!loggedIn);
-    } else {
-    }
+  function handleAddRow() {
+    const today = new Date().toISOString().slice(0, 10);
+    const newHabits = [
+      ...currentHabits,
+      {
+        date: today,
+        workout: false,
+        typingPractice: false,
+        coding: false,
+        reading: false,
+      },
+    ];
+    setCurrentHabits(newHabits);
   }
 
   function handleCheckboxChange(habitIndex: number, habitKey: HabitKey) {
-    const updatedHabits = habits.map((habit, index) => {
+    const updatedHabits = currentHabits.map((habit, index) => {
       if (index === habitIndex) {
-        return { ...habit, [habitKey]: !habit[habitKey] };
+        const updatedHabit = { ...habit, [habitKey]: !habit[habitKey] };
+        return updatedHabit;
       }
       return habit;
     });
-    setHabits(updatedHabits);
+    setCurrentHabits(updatedHabits);
+  }
+
+  async function handleSave() {
+    const response = await fetch("/api/saveHabits", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ habits: currentHabits }),
+    });
+
+    if (response.ok) {
+      setOriginalHabits(currentHabits);
+    } else {
+      // Handle save error
+    }
+  }
+
+  function handleClick() {
+    const password = "1234"; // This should not be hardcoded
+
+    if (password === temp) {
+      setLoggedIn(!loggedIn);
+    } else {
+      // Handle incorrect password case
+    }
   }
 
   const CELL_STYLE = "border-r";
   return (
     <div className="flex flex-col items-center">
-      {loggedIn === true ? (
+      {loggedIn ? (
         <div>
           <table className="border">
             <thead className="border-b">
@@ -77,7 +101,7 @@ export default function Table() {
               </tr>
             </thead>
             <tbody>
-              {habits.map((habit, index) => (
+              {currentHabits.map((habit, index) => (
                 <tr className="border-b" key={index}>
                   <td className={CELL_STYLE}>{habit.date}</td>
                   <td className={CELL_STYLE}>
@@ -120,11 +144,17 @@ export default function Table() {
               className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
               onClick={handleAddRow}
             >
-              Add New Day
+              Add New Day🔥
             </button>
-            <button className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700">
-              Save
-            </button>
+            {/* Render Save button conditionally based on isDirty */}
+            {dataHasChanged && (
+              <button
+                className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
+                onClick={handleSave}
+              >
+                Save
+              </button>
+            )}
           </div>
         </div>
       ) : (
