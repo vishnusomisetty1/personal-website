@@ -1,9 +1,9 @@
 export default function Page() {
   return (
     <main className="flex flex-col items-center">
-      <h1 className="text-4xl mb-4 font-serif">Youtube</h1> {/* Title */}
-      <div className="flex flex-col items-center space-y-4 border-4 border-indigo-500 rounded-lg w-fit ">
-        {' '}
+      <h1 className="font-serif text-7xl">Youtube</h1> {/* Title */}
+      <div className="flex w-fit flex-col items-center space-y-4 rounded-lg border-4 border-indigo-500 ">
+        {" "}
         {/* Centered container for videos */}
         <iframe
           className="mx-auto"
