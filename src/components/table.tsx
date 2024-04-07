@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+// object that gives what type each habit is, since we r using checkboxes, we need booleans
 interface Habit {
   date: string;
   workout: boolean;
@@ -10,18 +11,27 @@ interface Habit {
   reading: boolean;
 }
 
+// Union type in TypeScript allows you to define a type that can be one of several different types or values, a Habit key is a variable stored to the strings below
 type HabitKey = "workout" | "typingPractice" | "coding" | "reading";
 
+//this function is a useState function and we would just substitute a variable
 export default function Table() {
+  // login
   const [loggedIn, setLoggedIn] = useState(true);
+  // login
   const [temp, setTemp] = useState("");
-  const [originalHabits, setOriginalHabits] = useState<Habit[]>([]);
-  const [currentHabits, setCurrentHabits] = useState<Habit[]>([]);
-  const [isDirty, setIsDirty] = useState(false);
 
+  //habits
+  const [originalHabits, setOriginalHabits] = useState<Habit[]>([]);
+  //habits; this is the variable i need to focus on, so in this use state, what we are doing is setting to the interface habit, and we have those values set to booleans, the video we watched was manually setting the variable straight to true but we don't need to because it already is a boolean.
+  const [currentHabits, setCurrentHabits] = useState<Habit[]>([]);
+
+  // THis use effect function uses the fetch API to make a GET request to the "/habits/api/getHabits" endpoint, this code is probably a key to geting the information from the database.
   useEffect(() => {
     const fetchHabits = async () => {
-      const response = await fetch("/habits/api");
+      // this first line of code is fetching the data from this specific route
+      const response = await fetch("/habits/api/getHabits");
+      //response json
       const data = await response.json();
       setOriginalHabits(data.habits);
       setCurrentHabits(data.habits);
@@ -30,11 +40,12 @@ export default function Table() {
     fetchHabits();
   }, []);
 
+  //this variable does not actually store anything but it actually is kinda like a n if statement, so if they aren't equal that means there is a change to the variable implmeneting the save button, however when we click it it show the new data, so if data has changed we need to export currentHabits
   const dataHasChanged =
     JSON.stringify(originalHabits) !== JSON.stringify(currentHabits);
 
   function handleAddRow() {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = new Date().toISOString();
     const newHabits = [
       ...currentHabits,
       {
@@ -59,25 +70,34 @@ export default function Table() {
     setCurrentHabits(updatedHabits);
   }
 
-  async function handleSave() {
-    const response = await fetch("/api/saveHabits", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ habits: currentHabits }),
-    });
+  // Inside your Table component
+  const handleSave = async () => {
+    try {
+      const response = await fetch("/api/habits/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ habits: currentHabits }),
+      });
 
-    if (response.ok) {
-      setOriginalHabits(currentHabits);
-    } else {
-      // Handle save error
+      if (!response.ok) {
+        throw new Error("Failed to save habits");
+      }
+
+      // Here, you could set a state variable to show a success message, etc.
+      console.log("Habits saved successfully!");
+    } catch (error) {
+      console.error("Error saving habits:", error);
+      // Here, you could set a state variable to show an error message, etc.
     }
-  }
+  };
 
+  //handlclick is the function that hold the variable password
   function handleClick() {
     const password = "1234"; // This should not be hardcoded
 
+    //this if statement just uses a password, if password equals temp, it would set the log in as correct and then sends you the table.
     if (password === temp) {
       setLoggedIn(!loggedIn);
     } else {
@@ -146,7 +166,7 @@ export default function Table() {
             >
               Add New Day🔥
             </button>
-            {/* Render Save button conditionally based on isDirty */}
+
             {dataHasChanged && (
               <button
                 className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"

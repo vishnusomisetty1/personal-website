@@ -1,4 +1,14 @@
+// Assuming this file is located at /lib/HabitService.ts or a similar path
+
 import { PrismaClient } from "@prisma/client";
+
+export interface Habit {
+  id: number;
+  workout: boolean;
+  typingPractice: boolean;
+  coding: boolean;
+  reading: boolean;
+}
 
 export class HabitService {
   prisma: PrismaClient;
@@ -8,7 +18,7 @@ export class HabitService {
   }
 
   // Function to get all Habits
-  async getAllHabits() {
+  async getAllHabits(): Promise<Habit[]> {
     return await this.prisma.habit.findMany();
   }
 
@@ -18,7 +28,7 @@ export class HabitService {
     typingPractice: boolean,
     coding: boolean,
     reading: boolean,
-  ) {
+  ): Promise<Habit> {
     return await this.prisma.habit.create({
       data: {
         workout,
@@ -36,7 +46,7 @@ export class HabitService {
     typingPractice: boolean,
     coding: boolean,
     reading: boolean,
-  ) {
+  ): Promise<Habit> {
     return await this.prisma.habit.update({
       where: { id },
       data: {
@@ -46,5 +56,19 @@ export class HabitService {
         reading,
       },
     });
+  }
+
+  // New function to bulk update habits
+  async updateHabits(habits: Habit[]): Promise<Habit[]> {
+    // Create an array of update promises
+    const updatePromises = habits.map((habit) => {
+      return this.prisma.habit.update({
+        where: { id: habit.id },
+        data: habit,
+      });
+    });
+
+    // Wait for all update promises to resolve
+    return await Promise.all(updatePromises);
   }
 }

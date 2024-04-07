@@ -15,6 +15,9 @@ export function Navbar() {
       <Link href="/habits" className="hover:underline active:text-neutral-500">
         Habit Tracker
       </Link>
+      <Link href="/comment" className="hover:underline active:text-neutral-500">
+        Comment Page
+      </Link>
     </div>
   );
 }

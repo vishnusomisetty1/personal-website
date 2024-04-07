@@ -1,7 +1,6 @@
 import { getBlogPosts } from "@/db/blog";
 
 export default function Page({ params }: { params: { slug: string } }) {
-  console.log("");
   let allBlogs = getBlogPosts();
   const blogPost = allBlogs.find((blog) => blog.slug === params.slug);
 
