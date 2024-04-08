@@ -1,7 +1,9 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function AddComment() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
 
@@ -24,6 +26,7 @@ export default function AddComment() {
     } else {
       console.error("Failed to add comment");
     }
+    router.refresh();
   };
 
   return (
