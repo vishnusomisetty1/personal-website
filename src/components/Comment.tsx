@@ -24,6 +24,8 @@ export default function Comment({ id, name, content, likes }: CommentProps) {
     router.refresh();
   }
 
+  console.log("commetn conent", content);
+
   return (
     <div className="border p-2 text-left">
       <h3 className="text-sm text-neutral-300">{name}</h3>
