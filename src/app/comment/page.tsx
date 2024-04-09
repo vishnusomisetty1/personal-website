@@ -18,6 +18,7 @@ async function getComments(minLikes = 0) {
 
 export default async function Page() {
   const comments = await getComments();
+  console.log("comments", comments);
 
   return (
     <main className="flex w-full flex-col items-center ">
