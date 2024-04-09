@@ -3,12 +3,13 @@ generator client {
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
 }
 
 model Habit {
-    id             Int      @id @default(autoincrement())
+    id             String   @id @default(uuid())
     date           DateTime @default(now())
     workout        Boolean  @default(false)
     typingPractice Boolean  @default(false)
@@ -17,7 +18,7 @@ model Habit {
 }
 
 model Comment {
-    id        String   @id @default(cuid())
+    id        String   @id @default(uuid())
     name      String
     content   String
     createdAt DateTime @default(now())

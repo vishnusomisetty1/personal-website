@@ -10,8 +10,6 @@ export default function AddComment() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    console.log("hsd");
-
     const response = await fetch("/comment/api/addComment", {
       method: "POST",
       headers: {
