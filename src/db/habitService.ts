@@ -2,8 +2,9 @@
 
 import { PrismaClient } from "@prisma/client";
 
-export interface Habit {
-  id: number;
+interface Habit {
+  id?: string;
+  date: Date;
   workout: boolean;
   typingPractice: boolean;
   coding: boolean;
@@ -41,7 +42,7 @@ export class HabitService {
 
   // Function to update an existing Habit
   async updateHabit(
-    id: number,
+    id: string,
     workout: boolean,
     typingPractice: boolean,
     coding: boolean,

@@ -3,7 +3,6 @@ import Link from "next/link";
 
 export default function Page() {
   let allBlogs = getBlogPosts();
-  // console.log("allblogs", allBlogs);
   return (
     <main className="">
       <h1 className="font-serif text-7xl">My Blog</h1>

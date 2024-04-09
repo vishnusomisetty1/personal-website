@@ -19,10 +19,9 @@ export async function POST(request: NextRequest) {
 
   // Check if the comment exists before attempting to update
   if (comment) {
-    // Updating likes for the specific comment
     const updatedLikes = await prisma.comment.update({
       where: {
-        id: id, // Condition to ensure only this specific comment is updated
+        id: id,
       },
       data: {
         likes: {
@@ -30,8 +29,6 @@ export async function POST(request: NextRequest) {
         },
       },
     });
-
-    console.log("Updated Comment Likes:", id, updatedLikes);
 
     // Returning a success response
     return new NextResponse(
