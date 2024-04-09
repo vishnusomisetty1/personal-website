@@ -33,6 +33,8 @@ export default function Table() {
     fetchHabits();
   }, []);
 
+  console.log("original habits", originalHabits);
+
   const dataHasChanged =
     JSON.stringify(originalHabits) !== JSON.stringify(currentHabits);
 
