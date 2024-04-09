@@ -22,7 +22,9 @@ export default function Table() {
 
   useEffect(() => {
     const fetchHabits = async () => {
-      const response = await fetch("/habits/api/getHabits");
+      const response = await fetch("/habits/api/getHabits", {
+        cache: "no-store",
+      });
       const data = await response.json();
       setOriginalHabits(data.habits);
       setCurrentHabits(data.habits);
