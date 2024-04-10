@@ -1,5 +1,7 @@
 "use client";
 
+import { TrashCan } from "@carbon/icons-react";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 
 interface Habit {
@@ -107,9 +109,9 @@ export default function Table() {
     setCurrentHabits(b);
   }
 
-  const CELL_STYLE = "border-r";
+  const CELL_STYLE = "border-r px-4 py-2";
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center ">
       {loggedIn ? (
         <div>
           <table className="border">
@@ -131,7 +133,9 @@ export default function Table() {
                   }`}
                   key={index}
                 >
-                  <td className={CELL_STYLE}>{habit.date}</td>
+                  <td className={CELL_STYLE}>
+                    {format(habit.date, "yyyy-MM-dd")}
+                  </td>
                   <td className={CELL_STYLE}>
                     <input
                       type="checkbox"
@@ -162,12 +166,9 @@ export default function Table() {
                       onChange={() => handleCheckboxChange(index, "reading")}
                     />
                   </td>
-                  <td>
-                    <button
-                      className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
-                      onClick={() => handleDeleteRow(index)}
-                    >
-                      x
+                  <td className={CELL_STYLE}>
+                    <button onClick={() => handleDeleteRow(index)}>
+                      <TrashCan className="hover:text-red-600" />
                     </button>
                   </td>
                 </tr>
@@ -175,7 +176,7 @@ export default function Table() {
             </tbody>
           </table>
 
-          <div className="mt-2 flex flex-col space-y-2">
+          <div className="mt-4 flex flex-col space-y-2">
             <button
               className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
               onClick={handleAddRow}
