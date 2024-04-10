@@ -89,8 +89,8 @@ export default function Table() {
   }
 
   function handleDeleteRow(habitIndex: number) {
-    let b = currentHabits.map((obj: Habit, index: number) => {
-      // console.log("habit printou", obj.id, index, habitIndex);
+    let updatedHabits = currentHabits.map((obj: Habit, index: number) => {
+      console.log("habit printou", obj.id);
 
       if (index === habitIndex) {
         return {
@@ -104,9 +104,14 @@ export default function Table() {
       }
     });
 
-    console.log("after", b);
+    const finalHabits = updatedHabits.filter(
+      (obj) => !(obj.toDelete === true && !obj.id),
+    );
 
-    setCurrentHabits(b);
+    console.log("after", finalHabits);
+
+    // Update the currentHabits state with the final array
+    setCurrentHabits(finalHabits);
   }
 
   const CELL_STYLE = "border-r px-4 py-2";
