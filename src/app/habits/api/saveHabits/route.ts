@@ -1,38 +1,39 @@
 import prisma from "@/app/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-interface Habits {
-  id: string;
+interface Habit {
+  // It's more conventional to name the interface in singular form if it represents a single item
+  id?: string; // Making id optional to support create operation where id might not be present
   date: string;
   workout: boolean;
   typingPractice: boolean;
   coding: boolean;
   reading: boolean;
+  toDelete?: boolean; // Assuming there's a flag to indicate deletion, made optional
 }
 
 export async function POST(request: NextRequest) {
-  const body: { currentHabits: Habits[] } = await request.json();
+  const body: { currentHabits: Habit[] } = await request.json();
 
   for (let i = 0; i < body.currentHabits.length; i++) {
-    // If 'id' is not provided, indicating a create operation
-    if (body.currentHabits[i].id === undefined) {
-      try {
-        const createdHabit = await prisma.habit.create({
-          data: body.currentHabits[i],
+    const { toDelete, ...habitData } = body.currentHabits[i];
+
+    console.log("\n\n\n\nProcessing habit:", toDelete, habitData, i);
+    try {
+      if (habitData.id === undefined) {
+        await prisma.habit.create({ data: habitData });
+      } else if (toDelete === true) {
+        await prisma.habit.delete({
+          where: { id: habitData.id },
         });
-      } catch (error) {
-        console.error("Create error:", error);
-      }
-    } else {
-      // 'id' is provided, indicating an update operation
-      try {
-        const updatedHabit = await prisma.habit.update({
-          where: { id: body.currentHabits[i].id },
-          data: body.currentHabits[i],
+      } else {
+        await prisma.habit.update({
+          where: { id: habitData.id },
+          data: habitData,
         });
-      } catch (error) {
-        console.error("Update error:", error);
       }
+    } catch (error) {
+      console.error("Operation error:", error);
     }
   }
 

@@ -9,6 +9,7 @@ interface Habit {
   typingPractice: boolean;
   coding: boolean;
   reading: boolean;
+  toDelete?: boolean;
 }
 
 type HabitKey = "workout" | "typingPractice" | "coding" | "reading";
@@ -85,6 +86,27 @@ export default function Table() {
     }
   }
 
+  function handleDeleteRow(habitIndex: number) {
+    let b = currentHabits.map((obj: Habit, index: number) => {
+      // console.log("habit printou", obj.id, index, habitIndex);
+
+      if (index === habitIndex) {
+        return {
+          ...obj,
+          toDelete: !obj.toDelete,
+        };
+      } else {
+        return {
+          ...obj,
+        };
+      }
+    });
+
+    console.log("after", b);
+
+    setCurrentHabits(b);
+  }
+
   const CELL_STYLE = "border-r";
   return (
     <div className="flex flex-col items-center">
@@ -98,11 +120,17 @@ export default function Table() {
                 <th className={CELL_STYLE}>Typing</th>
                 <th className={CELL_STYLE}>Coding</th>
                 <th className={CELL_STYLE}>Reading</th>
+                <th className={CELL_STYLE}></th>
               </tr>
             </thead>
             <tbody>
               {currentHabits.map((habit, index) => (
-                <tr className="border-b" key={index}>
+                <tr
+                  className={`border-b ${
+                    habit.toDelete === true && "bg-red-500"
+                  }`}
+                  key={index}
+                >
                   <td className={CELL_STYLE}>{habit.date}</td>
                   <td className={CELL_STYLE}>
                     <input
@@ -133,6 +161,14 @@ export default function Table() {
                       checked={habit.reading}
                       onChange={() => handleCheckboxChange(index, "reading")}
                     />
+                  </td>
+                  <td>
+                    <button
+                      className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
+                      onClick={() => handleDeleteRow(index)}
+                    >
+                      x
+                    </button>
                   </td>
                 </tr>
               ))}
