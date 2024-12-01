@@ -6,39 +6,42 @@ interface LikeProp {
 }
 
 export async function POST(request: NextRequest) {
-  // Parsing the request body to get the comment ID
-  const body: LikeProp = await request.json();
-  const { id } = body;
+  try {
+    const body: LikeProp = await request.json();
+    const { id } = body;
 
-  // Fetching a specific comment based on the ID
-  const comment = await prisma.comment.findUnique({
-    where: {
-      id: id, // Use the ID from the request body
-    },
-  });
-
-  // Check if the comment exists before attempting to update
-  if (comment) {
-    const updatedLikes = await prisma.comment.update({
+    const comment = await prisma.comment.findUnique({
       where: {
         id: id,
       },
-      data: {
-        likes: {
-          increment: 1,
-        },
-      },
     });
 
-    // Returning a success response
+    if (comment) {
+      await prisma.comment.update({
+        where: { id: id },
+        data: {
+          likes: {
+            increment: 1,
+          },
+        },
+      });
+
+      return new NextResponse(
+        JSON.stringify({ message: "Comment likes updated successfully" }),
+        { status: 200 },
+      );
+    } else {
+      return new NextResponse(JSON.stringify({ error: "Comment not found" }), {
+        status: 404,
+      });
+    }
+  } catch (error) {
+    console.error("Failed to update likes:", error);
     return new NextResponse(
-      JSON.stringify({ message: "Comment likes updated successfully" }),
-      { status: 200 },
+      JSON.stringify({
+        error: "Service temporarily unavailable. Please try again later.",
+      }),
+      { status: 503 },
     );
-  } else {
-    // If the comment doesn't exist, return a 404 response
-    return new NextResponse(JSON.stringify({ error: "Comment not found" }), {
-      status: 404,
-    });
   }
 }

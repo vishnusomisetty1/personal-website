@@ -9,10 +9,10 @@ interface ReqBody {
 }
 
 export async function POST(request: NextRequest) {
-  const body: ReqBody = await request.json();
-  const { name, content } = body;
-
   try {
+    const body: ReqBody = await request.json();
+    const { name, content } = body;
+
     const newComment = await prisma.comment.create({
       data: {
         name,
@@ -23,8 +23,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Failed to add comment:", error);
     return new NextResponse(
-      JSON.stringify({ error: "Failed to add comment" }),
-      { status: 500 },
+      JSON.stringify({
+        error: "Service temporarily unavailable. Please try again later.",
+      }),
+      { status: 503 },
     );
   }
 }
