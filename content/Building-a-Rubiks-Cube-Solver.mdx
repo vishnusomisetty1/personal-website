@@ -1,0 +1,47 @@
+---
+title: "Building a Rubik's Cube Solver"
+publishedAt: "2024-03-30"
+summary: "A step-by-step journey of building an automated Rubik's cube solver"
+---
+
+At the beginning of summer, my brother challenged me to build a functional Rubik's cube solver that could solve a cube in less than ten seconds. His requirements were:
+
+1. Connect it to a Raspberry Pi to make it independent from a computer
+2. Use a camera to scan each side of the Rubik's cube for faster processing
+
+With these parameters in mind, I began researching the necessary components. The first step was purchasing an Arduino and learning how to use it. To familiarize myself with the platform, I started with a side project: building a robotic arm using servo motors.
+
+# The Motor Challenge
+
+For the actual cube solver, I learned that stepper motors would be ideal - they're more powerful and can reach faster speeds than servo motors. However, they're also more complex to wire. After some research, I discovered I needed two additional components:
+
+- A stepper motor driver to control the motor
+- A bench power supply as the power source
+
+My first attempt at wiring resulted in smoke coming from the breadboard (which I use to extend the Arduino's pins). After two more smoking incidents and a complete rewiring, I finally got my first motor working. Now I had to repeat this process five more times.
+
+# Learning from Mistakes
+
+A crucial oversight led to another setback: I hadn't used capacitors, which prevent electrical charge spikes from damaging the Arduino. While waiting for my capacitors to arrive, I impatiently tried wiring one of the motors without one. The result? A mini explosion from the Arduino's chip, forcing me to start over. After learning this lesson in patience, I spent three days carefully working on the wiring and successfully got all six motors operational.
+
+# Design and Implementation
+
+The next phase involved designing the solver's physical structure. The initial 3D model seemed perfect for the top and bottom sections, but the motor didn't fit properly. After some adjustments and reprinting, I finally assembled everything with the motors properly mounted.
+
+# Software Development
+
+The coding phase began with manual color input and computer control. With some help from ChatGPT, it took 2-3 months before the motors were actually turning the cube - though not yet solving it. After a month of unsuccessful attempts, I shifted focus to implementing color recognition.
+
+# Debugging and Success
+
+The color recognition came together relatively quickly, but the solving mechanism still wasn't working. Through careful analysis of the solving attempts, I discovered a notation error: one move was programmed to turn clockwise when it should have been counter-clockwise. After fixing this issue, I achieved my first successful solve! Further optimization brought the solving time down to under 30 seconds.
+
+# Final Integration
+
+The last challenge was integrating the Raspberry Pi - a feature I initially resisted but ultimately embraced. This integration proved simpler than expected, requiring only the connection of the webcam and Arduino, plus some port configuration.
+
+The first attempt with the complete system failed when a motor adapter slipped due to high speed. However, the second attempt was a remarkable success - achieving a solving time of just 7 seconds! After four months of dedicated work, the project was finally complete.
+
+# Conclusion
+
+This project taught me valuable lessons about patience, persistence, and the importance of attention to detail in both hardware and software development. What started as a challenging task from my brother became a rewarding journey of learning and problem-solving.
