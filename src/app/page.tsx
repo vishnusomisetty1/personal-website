@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Page() {
   return (
     <main className="mx-auto max-w-5xl px-6 py-12 text-left">
@@ -11,12 +13,12 @@ export default function Page() {
           that benefit my future.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <a
+          <Link
             href="/blog"
             className="rounded-md bg-white px-5 py-2 text-navy-700 shadow-sm transition hover:bg-white/90"
           >
             Read the Blog
-          </a>
+          </Link>
           <a
             href="https://rvrmedia.vercel.app"
             target="_blank"
