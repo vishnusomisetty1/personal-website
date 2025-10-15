@@ -24,7 +24,7 @@ export default function Example() {
         />
         <button
           onClick={() => setLists([temp, ...lists])}
-          className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
+          className="rounded border bg-navy-600 px-2 py-1 text-white hover:bg-navy-700"
         >
           save
         </button>

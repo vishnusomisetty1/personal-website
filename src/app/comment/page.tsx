@@ -27,7 +27,9 @@ export default async function Page() {
   return (
     <main className="flex w-full flex-col items-center ">
       <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3">
-        <h1 className="pb-8 font-serif text-7xl">Leave me a Comment!</h1>
+        <h1 className="pb-6 text-4xl font-semibold tracking-tight">
+          Leave me a Comment!
+        </h1>
         <AddComment />
         {comments.length > 0 ? (
           comments.map((comment) => (
@@ -40,7 +42,7 @@ export default async function Page() {
             />
           ))
         ) : (
-          <div className="mt-4 text-center text-gray-400">
+          <div className="mt-4 text-center text-navy-400">
             Comments are temporarily unavailable. Please try again later.
           </div>
         )}

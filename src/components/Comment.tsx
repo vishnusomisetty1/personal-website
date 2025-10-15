@@ -27,14 +27,17 @@ export default function Comment({ id, name, content, likes }: CommentProps) {
   console.log("commetn conent", content);
 
   return (
-    <div className="border p-2 text-left">
-      <h3 className="text-sm text-neutral-300">{name}</h3>
-      <h4>{content}</h4>
+    <div className="my-3 rounded-lg border border-navy-100 bg-white p-4 text-left shadow-sm">
+      <h3 className="mb-1 text-sm font-medium text-navy-600">{name}</h3>
+      <h4 className="mb-2 leading-relaxed">{content}</h4>
       <div className="flex flex-row items-center space-x-2">
-        <button onClick={() => handleClick()} className="hover:text-blue-500">
+        <button
+          onClick={() => handleClick()}
+          className="text-navy-600 hover:text-navy-700"
+        >
           <ThumbsUpFilled />
         </button>
-        <p>{likes}</p>
+        <p className="text-sm text-navy-900/80">{likes}</p>
       </div>
     </div>
   );

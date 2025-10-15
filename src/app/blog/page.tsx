@@ -4,17 +4,21 @@ import Link from "next/link";
 export default function Page() {
   let allBlogs = getBlogPosts();
   return (
-    <main className="">
-      <h1 className="font-serif text-7xl">My Blog</h1>
-      <div className="mx-3 mt-6 flex flex-col space-y-4 md:mx-12">
+    <main className="mx-auto max-w-5xl px-6 py-10">
+      <h1 className="text-4xl font-semibold tracking-tight">My Blog</h1>
+      <div className="mt-6 grid gap-5 sm:grid-cols-2">
         {allBlogs.map((blog, index) => (
           <Link
             href={"blog/" + blog.slug}
-            className="rounded-lg border-4 border-indigo-500 pl-3 pr-3 text-left font-serif text-4xl hover:underline"
+            className="group rounded-xl border border-navy-100 bg-white p-5 text-left shadow-sm transition hover:shadow-md"
             key={index}
           >
-            <p>{blog.metadata.title}</p>
-            <p className="text-2xl">{blog.metadata.publishedAt}</p>
+            <p className="text-xl font-medium text-navy-900 group-hover:underline">
+              {blog.metadata.title}
+            </p>
+            <p className="mt-1 text-sm text-navy-900/70">
+              {blog.metadata.publishedAt}
+            </p>
           </Link>
         ))}
       </div>

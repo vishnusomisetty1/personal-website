@@ -118,9 +118,9 @@ export default function Table() {
   return (
     <div className="flex flex-col items-center ">
       {loggedIn ? (
-        <div>
-          <table className="border">
-            <thead className="border-b">
+        <div className="w-full rounded-lg border border-navy-100 bg-white p-4 shadow-sm">
+          <table className="w-full text-left">
+            <thead className="bg-navy-50">
               <tr>
                 <th className={CELL_STYLE}>Date</th>
                 <th className={CELL_STYLE}>Workout</th>
@@ -134,7 +134,7 @@ export default function Table() {
               {currentHabits.map((habit, index) => (
                 <tr
                   className={`border-b ${
-                    habit.toDelete === true && "bg-red-500"
+                    habit.toDelete === true && "bg-red-100"
                   }`}
                   key={index}
                 >
@@ -173,7 +173,7 @@ export default function Table() {
                   </td>
                   <td className={CELL_STYLE}>
                     <button onClick={() => handleDeleteRow(index)}>
-                      <TrashCan className="hover:text-red-600" />
+                      <TrashCan className="hover:text-navy-600" />
                     </button>
                   </td>
                 </tr>
@@ -183,7 +183,7 @@ export default function Table() {
 
           <div className="mt-4 flex flex-col space-y-2">
             <button
-              className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
+              className="rounded border bg-navy-600 px-2 py-1 text-white hover:bg-navy-700"
               onClick={handleAddRow}
             >
               Add New Day🔥
@@ -191,7 +191,7 @@ export default function Table() {
 
             {dataHasChanged && (
               <button
-                className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
+                className="rounded border bg-navy-600 px-2 py-1 text-white hover:bg-navy-700"
                 onClick={handleSave}
               >
                 Save
@@ -207,7 +207,7 @@ export default function Table() {
             onChange={(e) => setTemp(e.target.value)}
           />
           <button
-            className="rounded border bg-indigo-600 px-2 py-1 hover:bg-indigo-700"
+            className="rounded border bg-navy-600 px-2 py-1 text-white hover:bg-navy-700"
             onClick={handleClick}
           >
             Login

@@ -1,31 +1,25 @@
 export default function Page() {
   return (
-    <main className="flex flex-col items-center">
-      <h1 className="font-serif text-7xl">Youtube</h1> {/* Title */}
-      <div className="flex w-fit flex-col items-center space-y-4 rounded-lg border-4 border-indigo-500 ">
-        {" "}
-        {/* Centered container for videos */}
-        <iframe
-          className="mx-auto"
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/AIx5nDbBGlo"
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        ></iframe>
-        <iframe
-          className="mx-auto"
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/az-mWyWfMJg"
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        ></iframe>
-        {/* You can add more iframe tags with different VIDEO_IDs */}
+    <main className="mx-auto max-w-5xl px-6 py-10">
+      <h1 className="text-4xl font-semibold tracking-tight">YouTube</h1>
+      <div className="mt-6 grid gap-6 sm:grid-cols-2">
+        {["AIx5nDbBGlo", "az-mWyWfMJg"].map((id) => (
+          <div
+            key={id}
+            className="overflow-hidden rounded-xl border border-navy-100 bg-white shadow-sm"
+          >
+            <div className="relative aspect-video w-full">
+              <iframe
+                className="absolute left-0 top-0 h-full w-full"
+                src={`https://www.youtube.com/embed/${id}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        ))}
       </div>
     </main>
   );
