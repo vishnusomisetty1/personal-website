@@ -26,7 +26,7 @@ export default async function Page() {
   const comments = await getComments();
 
   return (
-    <main className="flex w-full flex-col items-center ">
+    <main className="flex w-full flex-col items-center px-4 py-8 sm:px-6 sm:py-12">
       <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3">
         <h1 className="pb-6 text-4xl font-semibold tracking-tight">
           Leave me a Comment!

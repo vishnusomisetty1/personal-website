@@ -1,8 +1,8 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="mt-10 border-t border-navy-100 bg-white/80 px-6 py-6 text-sm text-navy-900">
+    <footer className="mt-10 border-t border-navy-100 bg-white/80 px-4 py-6 text-sm text-navy-900 sm:px-6">
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 sm:flex-row">
         <p className="opacity-80">
           © {new Date().getFullYear()} Vishnu Somisetty
@@ -22,4 +22,3 @@ export function Footer() {
     </footer>
   );
 }
-

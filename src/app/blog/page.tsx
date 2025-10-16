@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Page() {
   let allBlogs = getBlogPosts();
   return (
-    <main className="mx-auto max-w-5xl px-6 py-10">
+    <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
       <h1 className="text-4xl font-semibold tracking-tight">My Blog</h1>
       <div className="mt-6 grid gap-5 sm:grid-cols-2">
         {allBlogs.map((blog, index) => (

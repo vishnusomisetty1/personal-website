@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <main className="mx-auto max-w-5xl px-6 py-12 text-left">
-      <section className="rounded-2xl bg-gradient-to-br from-navy-600 to-navy-800 p-10 text-white shadow-lg">
+    <main className="mx-auto max-w-5xl px-4 py-8 text-left sm:px-6 sm:py-12">
+      <section className="rounded-2xl bg-gradient-to-br from-navy-600 to-navy-800 p-6 text-white shadow-lg sm:p-10">
         <h1 className="text-4xl font-semibold tracking-tight md:text-6xl">
           Vishnu Somisetty
         </h1>
@@ -30,7 +30,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mt-8 rounded-2xl bg-gradient-to-br from-navy-600 to-navy-800 p-10 text-white shadow-lg">
+      <section className="mt-8 rounded-2xl bg-gradient-to-br from-navy-600 to-navy-800 p-6 text-white shadow-lg sm:p-10">
         <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
           Photography Business: RVR Media
         </h2>
