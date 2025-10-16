@@ -1,9 +1,14 @@
 import { getBlogPosts } from "@/db/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   let allBlogs = getBlogPosts();
-  const blogPost = allBlogs.find((blog) => blog.slug === params.slug);
+  const blogPost = allBlogs.find((blog) => blog.slug === slug);
 
   if (blogPost) {
     return (

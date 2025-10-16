@@ -1,15 +1,9 @@
 import prisma from "@/app/lib/prisma";
 import AddComment from "@/components/AddComment";
 import Comment from "@/components/Comment";
+import { Comment as PrismaComment } from "@prisma/client";
 
-interface CommentData {
-  id: string;
-  name: string;
-  content: string;
-  likes: number;
-}
-
-async function getComments(minLikes = 0): Promise<CommentData[]> {
+async function getComments(minLikes = 0): Promise<PrismaComment[]> {
   try {
     const comments = await prisma.comment.findMany({
       where: {
@@ -21,7 +15,7 @@ async function getComments(minLikes = 0): Promise<CommentData[]> {
         createdAt: "desc",
       },
     });
-    return comments as unknown as CommentData[];
+    return comments;
   } catch (error) {
     console.error("Failed to fetch comments:", error);
     return []; // Return empty array if database is down
