@@ -1,7 +1,7 @@
 import prisma from "@/app/lib/prisma";
 import AddComment from "@/components/AddComment";
 import Comment from "@/components/Comment";
-import { Comment as PrismaComment } from "@prisma/client";
+import type { Comment as PrismaComment } from "@prisma/client";
 
 async function getComments(minLikes = 0): Promise<PrismaComment[]> {
   try {
